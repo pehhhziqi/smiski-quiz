@@ -1,1 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Which Smiski Are You?</title>
 
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 20px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 25px rgba(0,255,150,0.2);
+    }
+
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: 85%;
+      border-radius: 12px;
+      border: none;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #4ade80;
+      transform: scale(1.03);
+    }
+
+    .progress {
+      height: 8px;
+      background: #334155;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #22c55e;
+      width: 0%;
+      border-radius: 10px;
+    }
+
+    .result-card {
+      margin-top: 20px;
+      padding: 25px;
+      border-radius: 20px;
+      background: #1e293b;
+      box-shadow: 0 0 25px rgba(0,255,150,0.3);
+      animation: fadeIn 0.8s ease;
+    }
+
+    .smiski-img {
+      width: 120px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 12px #86efac);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>Which Smiski Are You?</h1>
+  <p>Answer honestly — no right answers 👀</p>
+
+  <div class="progress">
+    <div id="bar" class="progress-bar"></div>
+  </div>
+
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+
+  <div id="resultCard" class="result-card" style="display:none;">
+    <img id="smiskiImg" class="smiski-img">
+    <h2 id="smiskiTitle"></h2>
+    <p id="smiskiDesc"></p>
+    <p id="smiskiLeader"></p>
+    <p id="smiskiStrength"></p>
+    <p id="smiskiGrowth"></p>
+    <p id="smiskiReflect"></p>
+  </div>
+
+</div>
+
+<script>
+
+// QUESTIONS
+const quiz = [
+{
+q: "Your team event is tomorrow, but things are messy…",
+a: [
+["You step in and organise everything clearly","model"],
+["You remind everyone why this matters","vision"],
+["You suggest changing the plan","challenge"],
+["You check in with each teammate","enable"],
+["You hype everyone up","encourage"]
+]},
+{
+q: "A teammate is not contributing much…",
+a: [
+["You show them what needs to be done","model"],
+["You remind them of the bigger purpose","vision"],
+["You suggest a different way they can help","challenge"],
+["You work alongside them","enable"],
+["You encourage them gently","encourage"]
+]},
+{
+q: "Your group has no clear direction…",
+a: [
+["You create structure","model"],
+["You paint a picture of success","vision"],
+["You propose a new approach","challenge"],
+["You get everyone’s input","enable"],
+["You keep morale positive","encourage"]
+]},
+{
+q: "Something goes wrong during your project…",
+a: [
+["You take responsibility","model"],
+["You reframe it positively","vision"],
+["You try something different","challenge"],
+["You support teammates","enable"],
+["You encourage everyone","encourage"]
+]},
+{
+q: "In discussions, you usually…",
+a: [
+["Keep things focused","model"],
+["Share ideas","vision"],
+["Question assumptions","challenge"],
+["Make sure everyone speaks","enable"],
+["Affirm others","encourage"]
+]},
+{
+q: "A quiet teammate has a good idea…",
+a: [
+["You build on it","model"],
+["You highlight its potential","vision"],
+["You improve it further","challenge"],
+["You invite them to share","enable"],
+["You affirm them","encourage"]
+]},
+{
+q: "You feel most satisfied when…",
+a: [
+["Things are done well","model"],
+["People feel inspired","vision"],
+["Something new works","challenge"],
+["The team works smoothly","enable"],
+["People feel appreciated","encourage"]
+]},
+{
+q: "You struggle most with teammates who…",
+a: [
+["Don’t take responsibility","model"],
+["Lack passion","vision"],
+["Resist change","challenge"],
+["Don’t cooperate","enable"],
+["Bring others down","encourage"]
+]},
+{
+q: "If no one leads…",
+a: [
+["You step up quietly","model"],
+["You guide direction","vision"],
+["You shake things up","challenge"],
+["You bring people together","enable"],
+["You keep morale up","encourage"]
+]},
+{
+q: "Your biggest impact is…",
+a: [
+["Setting standards","model"],
+["Giving meaning","vision"],
+["Driving change","challenge"],
+["Building trust","enable"],
+["Encouraging others","encourage"]
+]}
+];
+
+// RESULTS
+const results = {
+model: {
+img: "https://i.imgur.com/Z6X6Z9n.png",
+title: "🧍 The Carrying Smiski",
+desc: "You lead through action — not words.",
+leader: "Leadership Style: Model the Way",
+strength: "✨ You set strong standards and take responsibility.",
+growth: "⚠️ You may expect others to just ‘know’ what to do.",
+reflect: "💭 Do you clearly communicate your expectations?"
+},
+vision: {
+img: "https://i.imgur.com/8Km9tLL.png",
+title: "🎉 The Celebration Smiski",
+desc: "You make people excited about what’s possible.",
+leader: "Leadership Style: Inspire a Shared Vision",
+strength: "✨ You bring energy and direction.",
+growth: "⚠️ Ideas may stay ideas without follow-through.",
+reflect: "💭 How often do you turn ideas into action?"
+},
+challenge: {
+img: "https://i.imgur.com/7yUvePI.png",
+title: "🤸 The Stretching Smiski",
+desc: "You push for better, even when it’s uncomfortable.",
+leader: "Leadership Style: Challenge the Process",
+strength: "✨ You drive innovation and improvement.",
+growth: "⚠️ Not everything needs to be changed.",
+reflect: "💭 When should you adapt vs disrupt?"
+},
+enable: {
+img: "https://i.imgur.com/NhQpP6K.png",
+title: "🤝 The Teamwork Smiski",
+desc: "You make sure no one struggles alone.",
+leader: "Leadership Style: Enable Others to Act",
+strength: "✨ You build trust and strong teams.",
+growth: "⚠️ You may hold yourself back too much.",
+reflect: "💭 When should you step forward?"
+},
+encourage: {
+img: "https://i.imgur.com/3Y3Z6ZL.png",
+title: "💛 The Cheer Smiski",
+desc: "You uplift people when they need it most.",
+leader: "Leadership Style: Encourage the Heart",
+strength: "✨ You create a positive environment.",
+growth: "⚠️ You may avoid difficult conversations.",
+reflect: "💭 When do you need to be honest, not just kind?"
+}
+};
+
+let index = 0;
+let scores = {model:0, vision:0, challenge:0, enable:0, encourage:0};
+
+function loadQ() {
+  let q = quiz[index];
+  document.getElementById("question").innerText = q.q;
+
+  let html = "";
+  q.a.forEach(ans => {
+    html += `<button onclick="answer('${ans[1]}')">${ans[0]}</button>`;
+  });
+
+  document.getElementById("answers").innerHTML = html;
+  document.getElementById("bar").style.width = ((index)/quiz.length)*100 + "%";
+}
+
+function answer(type) {
+  scores[type]++;
+  index++;
+
+  if(index < quiz.length){
+    loadQ();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  let top = Object.keys(scores).reduce((a,b)=> scores[a]>scores[b]?a:b);
+
+  document.getElementById("question").innerText = "Your Smiski:";
+  document.getElementById("answers").innerHTML = "";
+
+  document.getElementById("resultCard").style.display = "block";
+
+  document.getElementById("smiskiImg").src = results[top].img;
+  document.getElementById("smiskiTitle").innerText = results[top].title;
+  document.getElementById("smiskiDesc").innerText = results[top].desc;
+  document.getElementById("smiskiLeader").innerText = results[top].leader;
+  document.getElementById("smiskiStrength").innerText = results[top].strength;
+  document.getElementById("smiskiGrowth").innerText = results[top].growth;
+  document.getElementById("smiskiReflect").innerText = results[top].reflect;
+
+  document.getElementById("bar").style.width = "100%";
+}
+
+loadQ();
+
+</script>
+
+</body>
+</html>
