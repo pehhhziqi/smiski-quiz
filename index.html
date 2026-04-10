@@ -11,7 +11,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* 🌿 LANDING */
+/* LANDING */
 .landing {
   background: white;
   min-height: 100vh;
@@ -25,8 +25,8 @@ body {
 }
 
 .landing h1 {
-  margin-top: 20px;
   font-size: 26px;
+  margin-top: 20px;
 }
 
 .landing p {
@@ -43,9 +43,10 @@ body {
   background: #22c55e;
   color: white;
   font-size: 16px;
+  cursor: pointer;
 }
 
-/* 🌌 QUIZ */
+/* QUIZ BG */
 .bg {
   position: fixed;
   width: 100%;
@@ -62,7 +63,7 @@ body {
   z-index: -1;
 }
 
-/* ✨ PARTICLES */
+/* PARTICLES */
 .particle {
   position: fixed;
   width: 5px;
@@ -94,7 +95,6 @@ body {
   background: rgba(0,0,0,0.6);
   color: white;
   text-align: center;
-  backdrop-filter: blur(10px);
 }
 
 /* BUTTON */
@@ -107,9 +107,9 @@ button {
   background: #22c55e;
   color: black;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* ANSWERS */
 .answer {
   background: rgba(255,255,255,0.1);
   color: white;
@@ -136,13 +136,12 @@ button {
 .hidden {
   display: none;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- 🌿 LANDING -->
+<!-- LANDING -->
 <div id="landing" class="landing">
   <img src="landing.png">
   <h1>Discover your Smiski type</h1>
@@ -153,20 +152,11 @@ button {
   <button class="start-btn" onclick="startQuizUI()">Take the Quiz</button>
 </div>
 
-<!-- 🌌 QUIZ UI -->
+<!-- QUIZ UI -->
 <div id="quizUI" class="hidden">
 
 <div class="bg"></div>
 <div class="overlay"></div>
-
-<script>
-for(let i=0;i<40;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"%";
-  document.body.appendChild(p);
-}
-</script>
 
 <div class="container">
 
@@ -200,15 +190,23 @@ for(let i=0;i<40;i++){
 
 <script>
 
+/* PARTICLES */
+for(let i=0;i<40;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  document.body.appendChild(p);
+}
+
 /* NAV */
 function startQuizUI(){
-  landing.classList.add("hidden");
-  quizUI.classList.remove("hidden");
+  document.getElementById("landing").classList.add("hidden");
+  document.getElementById("quizUI").classList.remove("hidden");
 }
 
 function startQuiz(){
-  story.classList.add("hidden");
-  quizBox.classList.remove("hidden");
+  document.getElementById("story").classList.add("hidden");
+  document.getElementById("quizBox").classList.remove("hidden");
   loadQ();
 }
 
@@ -285,9 +283,8 @@ const quiz=[
 ["Lifts people up","encourage"]
 ]}
 ];
-// (same as before, keep your existing array)
 
-/* RESULTS IMAGES */
+/* RESULTS */
 const results={
 model:{img:"https://drive.google.com/uc?export=view&id=13kISuLazPHIAAyv5lFkcccu8MIPNMm-h",title:"Model the Way"},
 vision:{img:"https://drive.google.com/uc?export=view&id=18RYRORBh42t-X2RSBadGXFODc1_sPQKB",title:"Inspire a Shared Vision"},
@@ -301,7 +298,8 @@ let score={model:0,vision:0,challenge:0,enable:0,encourage:0};
 
 function loadQ(){
   let cur=quiz[i];
-  q.innerText=cur.q;
+  document.getElementById("q").innerText=cur.q;
+  let ans=document.getElementById("ans");
   ans.innerHTML="";
   cur.a.forEach(a=>{
     let b=document.createElement("button");
@@ -310,7 +308,7 @@ function loadQ(){
     b.onclick=()=>pick(a[1]);
     ans.appendChild(b);
   });
-  bar.style.width=(i/quiz.length)*100+"%";
+  document.getElementById("bar").style.width=(i/quiz.length)*100+"%";
 }
 
 function pick(type){
@@ -321,12 +319,12 @@ function pick(type){
 }
 
 function showResult(){
-  quizBox.classList.add("hidden");
-  result.classList.remove("hidden");
+  document.getElementById("quizBox").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
   let top=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
-  img.src=results[top].img;
-  title.innerText=results[top].title;
+  document.getElementById("img").src=results[top].img;
+  document.getElementById("title").innerText=results[top].title;
 }
 
 </script>
