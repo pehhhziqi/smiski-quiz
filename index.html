@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>Smiski Quiz</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
@@ -11,153 +13,129 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #020617;
   color: white;
+  overflow-x: hidden;
 }
 
-/* ---------- LANDING PAGE ---------- */
-.landing {
+/* 🌌 BACKGROUND */
+.bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: url('cover.png') center/cover no-repeat;
+  background: url('bg.png') center/cover no-repeat;
+  z-index: -2;
+}
+
+/* ✨ PARTICLES */
+.particle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: #d9f99d;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 10s linear infinite;
+}
+
+@keyframes float {
+  from {transform: translateY(100vh);}
+  to {transform: translateY(-10vh);}
+}
+
+/* DARK OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: -1;
+}
+
+/* CENTER CARD */
+.container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-}
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
-}
-
-.landing-content {
-  position: relative;
-  z-index: 2;
-  max-width: 600px;
   padding: 20px;
 }
 
-.glow-title {
-  font-size: 42px;
-  color: #d9f99d;
-  text-shadow: 0 0 15px #86efac, 0 0 40px #22c55e;
+.card {
+  width: 100%;
+  max-width: 480px;
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  background: rgba(0,0,0,0.5);
+  text-align: center;
 }
 
-.landing-desc {
-  font-size: 16px;
-  color: #e2e8f0;
-  margin: 20px 0 30px;
+/* TITLE */
+.glow-title {
+  font-size: 28px;
+  color: #d9f99d;
+  text-shadow: 0 0 10px #86efac, 0 0 25px #22c55e;
+}
+
+/* TEXT */
+.desc {
+  font-size: 14px;
+  margin: 15px 0;
   line-height: 1.6;
 }
 
-.start-btn {
-  padding: 14px 30px;
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
   border-radius: 999px;
   border: none;
   font-weight: bold;
   background: #22c55e;
   color: black;
   cursor: pointer;
-  box-shadow: 0 0 20px #22c55e;
-  transition: 0.3s;
+  box-shadow: 0 0 15px #22c55e;
+  transition: 0.25s;
 }
 
-.start-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 40px #4ade80;
+button:hover {
+  transform: scale(1.05);
 }
 
-/* ---------- STORY PAGE ---------- */
-.story {
-  display: none;
-  height: 100vh;
-  background: radial-gradient(circle, #0f172a, #020617);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* ANSWERS */
+.answer {
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
-.story-box {
-  max-width: 600px;
-  padding: 30px;
-  animation: fadeIn 1s ease;
-}
-
-.story button {
-  margin-top: 20px;
-}
-
-/* ---------- QUIZ CARD ---------- */
-.card {
-  display: none;
-  width: 90%;
-  max-width: 520px;
-  margin: 60px auto;
-  padding: 30px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 40px rgba(34,197,94,0.2);
-  text-align: center;
+.answer:hover {
+  background: #22c55e;
+  color: black;
 }
 
 /* PROGRESS */
 .progress {
-  height: 6px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  margin-bottom: 20px;
+  height: 5px;
+  background: rgba(255,255,255,0.2);
+  margin-bottom: 15px;
 }
 
-.progress-bar {
-  height: 6px;
-  background: linear-gradient(90deg,#22c55e,#4ade80);
+.bar {
+  height: 5px;
+  background: #22c55e;
   width: 0%;
 }
 
-/* BUTTONS */
-button.answer {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 14px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-button.answer:hover {
-  background: #22c55e;
-  color: black;
-  transform: scale(1.03);
-}
-
 /* RESULT */
-.result-card {
-  display: none;
-}
-
 .smiski-img {
-  width: 140px;
-  filter: drop-shadow(0 0 20px #86efac);
+  width: 120px;
+  margin: 10px 0;
 }
 
-.restart {
-  margin-top: 20px;
-}
-
-/* ANIM */
-@keyframes fadeIn {
-  from {opacity:0; transform: translateY(20px);}
-  to {opacity:1; transform: translateY(0);}
+/* HIDE */
+.hidden {
+  display: none;
 }
 
 </style>
@@ -165,114 +143,189 @@ button.answer:hover {
 
 <body>
 
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<!-- ✨ PARTICLES -->
+<script>
+for(let i=0;i<40;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+<div class="container">
+
 <!-- 🌌 LANDING -->
-<div id="landingPage" class="landing">
-  <div class="overlay"></div>
-
-  <div class="landing-content">
-    <h1 class="glow-title">Which Smiski Are You?</h1>
-
-    <p class="landing-desc">
-      Step into a quiet, glowing world where tiny Smiskis observe how people think, act, and respond…<br><br>
-      Through your choices, uncover what kind of Smiski you might be.
-    </p>
-
-    <button class="start-btn" onclick="goStory()">Take the Quiz</button>
-  </div>
+<div id="landing" class="card">
+  <h1 class="glow-title">Which Smiski Are You?</h1>
+  <p class="desc">
+    Step into a quiet, glowing world where tiny Smiskis observe how people think, act, and respond…<br><br>
+    Through your choices, uncover what kind of Smiski you might be.
+  </p>
+  <button onclick="goStory()">Take the Quiz</button>
 </div>
 
 <!-- 🌙 STORY -->
-<div id="storyPage" class="story">
-  <div class="story-box">
-    <p>
-      You’re finishing a long day in school when you notice a faint glow from an empty classroom.<br><br>
-
-      Curious, you step inside.<br><br>
-
-      Small glowing figures appear… Smiskis.<br><br>
-
-      One tilts its head.<br><br>
-
-      <i>"Everyone leads in their own way… let us show you yours."</i>
-    </p>
-
-    <button class="start-btn" onclick="startQuiz()">Begin the Journey</button>
-  </div>
+<div id="story" class="card hidden">
+  <p class="desc">
+    You notice a soft glow in an empty classroom…<br><br>
+    Small figures appear.<br><br>
+    Smiskis.<br><br>
+    <i>"Everyone leads in their own way… let us show you yours."</i>
+  </p>
+  <button onclick="startQuiz()">Begin the Journey</button>
 </div>
 
 <!-- 🧠 QUIZ -->
-<div class="card">
+<div id="quizBox" class="card hidden">
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <h3 id="q"></h3>
+  <div id="ans"></div>
+</div>
 
-  <div class="progress"><div id="bar" class="progress-bar"></div></div>
-
-  <h2 id="question"></h2>
-  <div id="answers"></div>
-
-  <div id="resultCard" class="result-card">
-    <img id="smiskiImg" class="smiski-img">
-    <h2 id="smiskiTitle"></h2>
-    <p id="smiskiDesc"></p>
-    <p id="smiskiLeader"></p>
-    <p id="smiskiStrength"></p>
-    <p id="smiskiGrowth"></p>
-    <p id="smiskiReflect"></p>
-
-    <button class="start-btn restart" onclick="restartQuiz()">Restart</button>
-  </div>
+<!-- 🎉 RESULT -->
+<div id="result" class="card hidden">
+  <img id="img" class="smiski-img">
+  <h2 id="title"></h2>
+  <p id="desc"></p>
+  <p id="leader"></p>
+  <button onclick="location.reload()">Restart</button>
+</div>
 
 </div>
 
 <script>
 
-/* NAVIGATION */
+/* NAV */
 function goStory(){
-  landingPage.style.display="none";
-  storyPage.style.display="flex";
+  landing.classList.add("hidden");
+  story.classList.remove("hidden");
 }
 
 function startQuiz(){
-  storyPage.style.display="none";
-  document.querySelector(".card").style.display="block";
+  story.classList.add("hidden");
+  quizBox.classList.remove("hidden");
   loadQ();
 }
 
-/* QUIZ */
-const quiz=[{q:"Your team event is tomorrow, but things are messy…",a:[
-["Organise everything","model"],["Remind purpose","vision"],["Change plan","challenge"],["Check teammates","enable"],["Hype everyone","encourage"]]}];
+/* QUESTIONS */
+const quiz=[
+{q:"Your team has something important coming up…",a:[
+["Organise everything","model"],
+["Remind purpose","vision"],
+["Change plan","challenge"],
+["Check teammates","enable"],
+["Lift mood","encourage"]
+]},
+{q:"Someone in your group is quiet…",a:[
+["Show what to do","model"],
+["Remind purpose","vision"],
+["New role","challenge"],
+["Sit with them","enable"],
+["Encourage","encourage"]
+]},
+{q:"No one knows where to start…",a:[
+["Create structure","model"],
+["Imagine outcome","vision"],
+["Try new way","challenge"],
+["Gather ideas","enable"],
+["Keep energy","encourage"]
+]},
+{q:"Something goes wrong…",a:[
+["Take responsibility","model"],
+["Reframe","vision"],
+["Try again","challenge"],
+["Support others","enable"],
+["Encourage","encourage"]
+]},
+{q:"In conversations…",a:[
+["Stay focused","model"],
+["Share ideas","vision"],
+["Question things","challenge"],
+["Include all","enable"],
+["Affirm","encourage"]
+]},
+{q:"A quiet idea appears…",a:[
+["Shape it","model"],
+["Highlight it","vision"],
+["Improve it","challenge"],
+["Invite sharing","enable"],
+["Affirm","encourage"]
+]},
+{q:"Best team moment…",a:[
+["Done well","model"],
+["Inspired","vision"],
+["New success","challenge"],
+["Working together","enable"],
+["Appreciated","encourage"]
+]},
+{q:"Hardest to work with…",a:[
+["Irresponsible","model"],
+["Unmotivated","vision"],
+["Resist change","challenge"],
+["Not cooperative","enable"],
+["Negative","encourage"]
+]},
+{q:"When no one leads…",a:[
+["Step up","model"],
+["Guide direction","vision"],
+["Shake things","challenge"],
+["Bring together","enable"],
+["Keep going","encourage"]
+]},
+{q:"Your presence…",a:[
+["Sets standard","model"],
+["Gives direction","vision"],
+["Creates change","challenge"],
+["Builds connection","enable"],
+["Lifts others","encourage"]
+]}
+];
 
+/* RESULTS */
 const results={
-model:{img:"https://smiski.com/e/wp-content/uploads/2024/01/balancing-boxes.png",title:"The Carrying Smiski",desc:"You lead through action."}
+model:{img:"https://smiski.com/e/wp-content/uploads/2024/01/balancing-boxes.png",title:"Model the Way"},
+vision:{img:"https://smiski.com/e/wp-content/uploads/2025/09/img_birthday03.png",title:"Inspire a Vision"},
+challenge:{img:"https://smiski.com/e/wp-content/uploads/2023/05/img_aerobics.png",title:"Challenge the Process"},
+enable:{img:"https://smiski.com/e/wp-content/uploads/2024/01/teamwork.png",title:"Enable Others"},
+encourage:{img:"https://smiski.com/e/wp-content/uploads/2020/12/img_cheer_05.png",title:"Encourage the Heart"}
 };
 
-let index=0;
-let scores={model:0,vision:0,challenge:0,enable:0,encourage:0};
+let i=0;
+let score={model:0,vision:0,challenge:0,enable:0,encourage:0};
 
 function loadQ(){
-  let q=quiz[index];
-  question.innerText=q.q;
-  answers.innerHTML="";
-  q.a.forEach(ans=>{
-    let btn=document.createElement("button");
-    btn.className="answer";
-    btn.innerText=ans[0];
-    btn.onclick=()=>answer(ans[1]);
-    answers.appendChild(btn);
+  let cur=quiz[i];
+  q.innerText=cur.q;
+  ans.innerHTML="";
+  cur.a.forEach(a=>{
+    let b=document.createElement("button");
+    b.className="answer";
+    b.innerText=a[0];
+    b.onclick=()=>pick(a[1]);
+    ans.appendChild(b);
   });
+  bar.style.width=(i/quiz.length)*100+"%";
 }
 
-function answer(type){
-  scores[type]++;
-  showResult();
+function pick(type){
+  score[type]++;
+  i++;
+  if(i<quiz.length){loadQ();}
+  else{showResult();}
 }
 
 function showResult(){
-  resultCard.style.display="block";
-  smiskiImg.src=results.model.img;
-  smiskiTitle.innerText=results.model.title;
-}
+  quizBox.classList.add("hidden");
+  result.classList.remove("hidden");
 
-function restartQuiz(){
-  location.reload();
+  let top=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
+  img.src=results[top].img;
+  title.innerText=results[top].title;
 }
 
 </script>
